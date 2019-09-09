@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     EditText mEmaiEt, mPasswordEt;
-    TextView dontHaveAccountTv;
+    TextView dontHaveAccountTv, mRecoverPassTv;
     Button mLoginBtn;
 
     private FirebaseAuth mAuth;
@@ -46,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmaiEt = findViewById(R.id.emailET);
         mPasswordEt = findViewById(R.id.passwordET);
         dontHaveAccountTv = findViewById(R.id.dont_have_accountTv);
+        mRecoverPassTv = findViewById(R.id.recoverPassTv);
         mLoginBtn = findViewById(R.id.loginBtn);
 
         mAuth = FirebaseAuth.getInstance();
@@ -72,15 +77,78 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                //finish();
+                finish();
+            }
+        });
+
+        mRecoverPassTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRecoverPasswordDialog();
             }
         });
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Iniciando Sesion....");
+    }
+
+    private void showRecoverPasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        final EditText emailEt = new EditText(this);
+        emailEt.setHint("Correo electronico");
+        emailEt.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        emailEt.setMinEms(16);
+
+        linearLayout.addView(emailEt);
+        linearLayout.setPadding(10,10,10,10);
+
+        builder.setView(linearLayout);
+
+        builder.setPositiveButton("Recuperar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String email = emailEt.getText().toString().trim();
+                beginRecovery(email);
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void beginRecovery(String email) {
+        progressDialog.setMessage("Enviando correo electronico....");
+        progressDialog.show();
+
+        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+                if(task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "Correo electronico enviado",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(LoginActivity.this, "Fallo envio!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(LoginActivity.this, ""+e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void iniciarSesion(String email, String pass) {
+        progressDialog.setMessage("Iniciando Sesion....");
         progressDialog.show();
 
         mAuth.signInWithEmailAndPassword(email, pass)
