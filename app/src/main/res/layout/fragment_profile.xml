@@ -42,7 +42,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="#77000000">
+                    android:background="#77000000"
+                    android:paddingLeft="8dp">
 
                     <TextView
                         android:id="@+id/nameTv"
@@ -52,7 +53,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="5dp"
                         android:text="Nombre"
-                        android:textSize="25sp"
+                        android:textSize="26sp"
                         android:textColor="@color/colorWhite"/>
 
                     <TextView
