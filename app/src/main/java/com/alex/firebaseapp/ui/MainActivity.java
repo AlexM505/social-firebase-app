@@ -1,4 +1,4 @@
-package com.alex.firebaseapp;
+package com.alex.firebaseapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.alex.firebaseapp.R;
 
 public class MainActivity extends AppCompatActivity {
 

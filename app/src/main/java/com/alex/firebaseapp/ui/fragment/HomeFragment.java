@@ -1,4 +1,4 @@
-package com.alex.firebaseapp;
+package com.alex.firebaseapp.ui.fragment;
 
 
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alex.firebaseapp.R;
+import com.alex.firebaseapp.ui.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

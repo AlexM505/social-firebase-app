@@ -1,4 +1,4 @@
-package com.alex.firebaseapp;
+package com.alex.firebaseapp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -7,10 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
+import com.alex.firebaseapp.ui.fragment.ChatListFragment;
+import com.alex.firebaseapp.ui.fragment.HomeFragment;
+import com.alex.firebaseapp.ui.fragment.ProfileFragment;
+import com.alex.firebaseapp.R;
+import com.alex.firebaseapp.ui.fragment.UsersFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -71,6 +74,14 @@ public class DashboardActivity extends AppCompatActivity {
                             FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
                             ft3.replace(R.id.container,fragment3,"");
                             ft3.commit();
+                            return true;
+                        case R.id.nav_chats:
+                            actionBar.setTitle("Chats");
+
+                            ChatListFragment fragment4 = new ChatListFragment();
+                            FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
+                            ft4.replace(R.id.container,fragment4,"");
+                            ft4.commit();
                             return true;
                     }
                     return false;
