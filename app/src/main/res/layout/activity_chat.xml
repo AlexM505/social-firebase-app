@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#252525"
+    android:background="#F1EDED"
     tools:context=".ui.ChatActivity">  <!--#F1EDED-->
 
     <androidx.appcompat.widget.Toolbar
@@ -72,8 +72,8 @@
             android:id="@+id/messageEt"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="Escribe algo.."
-            android:padding="15dp"
+            android:hint="Escribe un mensaje.."
+            android:padding="8dp"
             android:inputType="textCapSentences|textMultiLine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
