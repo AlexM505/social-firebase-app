@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alex.firebaseapp.R;
+import com.alex.firebaseapp.ui.AddPostActivity;
 import com.alex.firebaseapp.ui.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -335,7 +336,7 @@ public class  ProfileFragment extends Fragment {
             case STORAGE_REQUEST_CODE:{
 
                 if(grantResults.length > 0){
-                    boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
 
                     if(writeStorageAccepted){
                         pickFromGallery();
@@ -452,6 +453,9 @@ public class  ProfileFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
+
+        menu.findItem(R.id.action_search).setVisible(false);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -461,6 +465,10 @@ public class  ProfileFragment extends Fragment {
         if(id == R.id.action_logout){
             firebaseAuth.signOut();
             checkUserStatus();
+        }
+
+        if(id == R.id.action_add_post){
+            startActivity(new Intent(getActivity(), AddPostActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
